@@ -1,10 +1,12 @@
 import { User } from "../types/user";
 import { FilteringCriteria } from "../types/filter";
+
 type UsersTableProps = {
 	filteredUsers: User[];
 	searchByTerms: Partial<FilteringCriteria>;
 	filter: (searchTerm: Partial<FilteringCriteria>) => void;
 };
+
 const UsersTable = (props: UsersTableProps) => {
 	const { filteredUsers, searchByTerms, filter } = props;
 
@@ -36,47 +38,58 @@ const UsersTable = (props: UsersTableProps) => {
 					</tr>
 				</thead>
 				<tbody>
-					<td>
-						<input
-							type='text'
-							name='name'
-							value={searchByTerms.name}
-							onChange={handleChange}
-							placeholder='Type to filter by name'
-							className='input input-bordered input-sm w-full max-w-xs'
-						/>
-					</td>
-					<td>
-						<input
-							type='text'
-							name='username'
-							value={searchByTerms.username}
-							onChange={handleChange}
-							placeholder='Type to filter by username'
-							className='input input-bordered input-sm w-full max-w-xs'
-						/>
-					</td>
-					<td>
-						<input
-							type='text'
-							name='email'
-							value={searchByTerms.email}
-							onChange={handleChange}
-							placeholder='Type to filter by email'
-							className='input input-bordered input-sm w-full max-w-xs'
-						/>
-					</td>
-					<td>
-						<input
-							type='text'
-							name='phone'
-							value={searchByTerms.phone}
-							onChange={handleChange}
-							placeholder='Type to filter by phone'
-							className='input input-bordered input-sm w-full max-w-xs'
-						/>
-					</td>
-					{tableRows}
+					{/* Always render the input row */}
+					<tr>
+						<td>
+							<input
+								type='text'
+								name='name'
+								value={searchByTerms.name}
+								onChange={handleChange}
+								placeholder='Type to filter by name'
+								className='input input-bordered input-sm w-full max-w-xs'
+							/>
+						</td>
+						<td>
+							<input
+								type='text'
+								name='username'
+								value={searchByTerms.username}
+								onChange={handleChange}
+								placeholder='Type to filter by username'
+								className='input input-bordered input-sm w-full max-w-xs'
+							/>
+						</td>
+						<td>
+							<input
+								type='text'
+								name='email'
+								value={searchByTerms.email}
+								onChange={handleChange}
+								placeholder='Type to filter by email'
+								className='input input-bordered input-sm w-full max-w-xs'
+							/>
+						</td>
+						<td>
+							<input
+								type='text'
+								name='phone'
+								value={searchByTerms.phone}
+								onChange={handleChange}
+								placeholder='Type to filter by phone'
+								className='input input-bordered input-sm w-full max-w-xs'
+							/>
+						</td>
+					</tr>
+					{filteredUsers.length === 0 ? (
+						<tr>
+							<td className='text-center text-xl' colSpan={4}>
+								No Users found.
+							</td>
+						</tr>
+					) : (
+						tableRows
+					)}
 				</tbody>
 			</table>
 		</div>
