@@ -1,24 +1,30 @@
 import { useEffect } from "react";
 
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../lib/store";
+import { useAppDispatch, useAppSelector } from "../hooks";
 
-import { fetchUsers } from "../lib/users/usersSlice";
+import { fetchUsers, filterUsers } from "../lib/users/usersSlice";
 import UsersTable from "./UsersTable";
+import Loading from "./Loading";
 const Users = () => {
-	const { users, loading, error } = useSelector(
-		(state: RootState) => state.users
+	const { filteredUsers, searchByTerms, loading, error } = useAppSelector(
+		(state) => state.users
 	);
-	const dispatch = useDispatch<AppDispatch>();
+	const dispatch = useAppDispatch();
 
 	useEffect(() => {
 		dispatch(fetchUsers());
 	}, [dispatch]);
 
-	if (loading) return <div>Loading...</div>;
+	if (loading) return <Loading />;
 	if (error) return <div>Error: {error}</div>;
 
-	return <UsersTable users={users} />;
+	return (
+		<UsersTable
+			filteredUsers={filteredUsers}
+			searchByTerms={searchByTerms}
+			filter={(searchTerms) => dispatch(filterUsers(searchTerms))}
+		/>
+	);
 };
 
 export default Users;

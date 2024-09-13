@@ -27,4 +27,3 @@ export type User = {
 	website: string;
 	company: Company;
 };
-
